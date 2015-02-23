@@ -4,6 +4,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -16,6 +17,11 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Reminder r = new Reminder(5);
+    }
+
+    public void instrucciones(View v){
+        Instrucciones inst = new Instrucciones();
+        inst.show(getSupportFragmentManager(), "instrucciones");
     }
 
     public class Reminder {

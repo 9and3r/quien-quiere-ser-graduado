@@ -27,6 +27,7 @@
         android:text="@string/instrucciones"
         android:id="@+id/button2"
         android:layout_below="@+id/imageView2"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:onClick="instrucciones" />
 
 </RelativeLayout>
