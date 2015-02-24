@@ -5,4 +5,17 @@
     <string name="instrucciones">Instrucciones</string>
     <string name="instrucciones_texto">Bla bala akbfdklajglkajgklnadfklnvnad JOSE kgladflkjga</string>
     <string name="instrucciones_aceptar">Aceptar</string>
+    <string name="title_activity_user_info">UserInfoActivity</string>
+
+    <string name="rellene_info">Rellene la info:</string>
+    <string name="nombre_usuario">Nombre de Usuario:</string>
+    <string name="selleccione_contacto">Selleccione contacto al que llamará como comodín</string>
+    <string name="contactos">Contactos</string>
+    <string name="comenzar_juego">Comenzar juego</string>
+    <string name="title_activity_juego">JuegoActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+
+
+
 </resources>

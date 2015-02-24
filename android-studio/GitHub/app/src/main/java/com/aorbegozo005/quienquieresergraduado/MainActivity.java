@@ -1,5 +1,6 @@
 package com.aorbegozo005.quienquieresergraduado;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -24,13 +25,20 @@ public class MainActivity extends ActionBarActivity {
         inst.show(getSupportFragmentManager(), "instrucciones");
     }
 
+    public void infoJuego(View v){
+        Intent i = new Intent(this, UserInfoActivity.class);
+        startActivity(i);
+    }
+
+
+
     public class Reminder {
 
         Timer timer;
 
         public Reminder(int seconds) {
             timer = new Timer();
-            timer.schedule(new RemindTask(), seconds*1000);
+            timer.schedule(new RemindTask(), seconds*1);
         }
 
         class RemindTask extends TimerTask {
