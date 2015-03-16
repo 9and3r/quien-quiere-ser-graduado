@@ -1,17 +1,40 @@
 package com.aorbegozo005.quienquieresergraduado;
 
+import android.graphics.Color;
+import android.net.Uri;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 
 public class JuegoActivity extends ActionBarActivity {
+
+    private String userName;
+    private Uri tel;
+    private DrawerLayout mDrawerLayout;
+    private ListView lista;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_juego);
+        userName = getIntent().getStringExtra("USER_INFO");
+        tel = Uri.parse(getIntent().getStringExtra("TEL"));
+        getSupportActionBar().setTitle(userName);
+
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        lista = (ListView) findViewById(R.id.left_drawer);
+
+        String[] galderak = getResources().getStringArray(R.array.preguntas);
+        lista.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, galderak));
     }
 
 

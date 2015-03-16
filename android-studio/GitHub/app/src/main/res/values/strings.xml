@@ -4,8 +4,10 @@
     <string name="jugar">Jugar</string>
     <string name="instrucciones">Instrucciones</string>
     <string name="instrucciones_texto">Bla bala akbfdklajglkajgklnadfklnvnad JOSE kgladflkjga</string>
-    <string name="instrucciones_aceptar">Aceptar</string>
+    <string name="aceptar">Aceptar</string>
     <string name="title_activity_user_info">UserInfoActivity</string>
+
+    <string name="default_user">Tu nombre</string>
 
     <string name="rellene_info">Rellene la info:</string>
     <string name="nombre_usuario">Nombre de Usuario:</string>
@@ -14,7 +16,35 @@
     <string name="comenzar_juego">Comenzar juego</string>
     <string name="title_activity_juego">JuegoActivity</string>
 
-    <string name="hello_world">Hello world!</string>
+    <string name="datos_error_titulo">Ooooopps</string>
+    <string name="datos_error_mensaje">Por favor introduzca todos los datos correctamente</string>
+
+
+    <string name="menu_cerrado">Cerrado</string>
+    <string name="menu_abierto">Abierto</string>
+
+    <string-array name="preguntas">
+        <item>240 créditos</item>
+        <item>225 créditos</item>
+        <item>210 créditos</item>
+        <item>195 créditos</item>
+        <item>180 créditos</item>
+        <item>165 créditos</item>
+        <item>150 créditos</item>
+        <item>135 créditos</item>
+        <item>120 créditos</item>
+        <item>105 créditos</item>
+        <item>90 créditos</item>
+        <item>75 créditos</item>
+        <item>60 créditos</item>
+        <item>45 créditos</item>
+        <item>30 créditos</item>
+        <item>15 créditos</item>
+
+
+
+
+    </string-array>
 
 
 
