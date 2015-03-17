@@ -1,8 +1,10 @@
 package com.aorbegozo005.quienquieresergraduado;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Handler;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -23,7 +25,7 @@ import java.util.Random;
 public class JuegoActivity extends ActionBarActivity {
 
     private String userName;
-    private Uri tel;
+    private String tel;
     private DrawerLayout mDrawerLayout;
     private ListView lista;
 
@@ -33,12 +35,14 @@ public class JuegoActivity extends ActionBarActivity {
     private Button respuesta3;
     private Button respuesta4;
 
-    private Button comodin1;
-    private Button comodin2;
-    private Button comodin3;
+    private Button comodinCompensacion;
+    private Button comodinLlamada;
+    private Button comodin50;
 
-    private boolean respondida;
+    private Button respondida;
     private Button zuzena;
+
+    private int numeroPregunta;
 
     private DatuBase db;
 
@@ -47,7 +51,7 @@ public class JuegoActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_juego);
         userName = getIntent().getStringExtra("USER_INFO");
-        tel = Uri.parse(getIntent().getStringExtra("TEL"));
+        tel = getIntent().getStringExtra("TEL");
         getSupportActionBar().setTitle(userName);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -57,17 +61,41 @@ public class JuegoActivity extends ActionBarActivity {
         respuesta2 = (Button) findViewById(R.id.respuesta2);
         respuesta3 = (Button) findViewById(R.id.respuesta3);
         respuesta4 = (Button) findViewById(R.id.respuesta4);
+        comodin50 = (Button) findViewById(R.id.comodin_50);
+        comodinCompensacion = (Button) findViewById(R.id.comodin_compensa);
+        comodinLlamada = (Button) findViewById(R.id.comodin_llamada);
+
 
         db = new DatuBase(this);
 
         String[] galderak = getResources().getStringArray(R.array.preguntas);
-        lista.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, galderak));
+        lista.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_list_item_activated_1, galderak){
+                             public boolean isEnabled(int position)
+                             {
+                                 return false;
+                             }
+                         }
+        );
 
         cargarQuestion();
     }
 
     public void cargarQuestion(){
         Cursor c = db.getQuestion(1);
+        numeroPregunta++;
+        lista.setItemChecked(lista.getCount() - numeroPregunta, true);
+        if(numeroPregunta == 17){
+
+        }
+        if (numeroPregunta==13){
+            comodinCompensacion.setBackgroundColor(Color.RED);
+            comodinCompensacion.setEnabled(false);
+        }
+        respondida = null;
+        respuesta1.setVisibility(View.VISIBLE);
+        respuesta2.setVisibility(View.VISIBLE);
+        respuesta3.setVisibility(View.VISIBLE);
+        respuesta4.setVisibility(View.VISIBLE);
         if(c.moveToFirst()){
             Random r = new Random();
             int ran = r.nextInt(c.getCount());
@@ -86,15 +114,41 @@ public class JuegoActivity extends ActionBarActivity {
                     zuzena = botoiak.get(ran2);
                 }
                 i++;
-
+                botoiak.get(ran2).setBackgroundColor(Color.BLUE);
                 botoiak.remove(ran2);
 
             }
             c.close();
-
         }
     }
 
+
+    public void comodin50(View v){
+        if (zuzena == respuesta1 || zuzena == respuesta2){
+            respuesta3.setVisibility(View.INVISIBLE);
+            respuesta4.setVisibility(View.INVISIBLE);
+        }else{
+            respuesta1.setVisibility(View.INVISIBLE);
+            respuesta2.setVisibility(View.INVISIBLE);
+        }
+        comodin50.setBackgroundColor(Color.RED);
+        comodin50.setEnabled(false);
+    }
+
+    public void comodinLlamada(View v){
+        Log.d("Proba", tel.toString());
+        Intent intent2 = new Intent(Intent.ACTION_DIAL);
+        intent2.setData(Uri.parse("tel:"+tel));
+        startActivity(intent2);
+        comodinLlamada.setBackgroundColor(Color.RED);
+        comodinLlamada.setEnabled(false);
+    }
+
+    public void comodinCompensacion(View v){
+        cargarQuestion();
+        comodinCompensacion.setBackgroundColor(Color.RED);
+        comodinCompensacion.setEnabled(false);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -120,10 +174,33 @@ public class JuegoActivity extends ActionBarActivity {
 
 
     public void respuesta(View v){
-        if(!respondida){
-            v.setBackgroundColor(Color.CYAN);
-            respondida = true;
+        if(respondida == null){
+            v.setBackgroundColor(Color.parseColor("#FFBF00"));
+            respondida = (Button) v;
+            Handler handler = new Handler();
+            Runnable runnable = new Runnable(){
+                public void run() {
+                    marcarRespuesta();
+                }
+            };
+            handler.postDelayed(runnable, 1000*numeroPregunta/4);
         }
+    }
 
+    public void marcarRespuesta(){
+        zuzena.setBackgroundColor(Color.GREEN);
+        Handler handler = new Handler();
+        Runnable runnable = new Runnable(){
+            public void run() {
+                comprobarRespuesta();
+            }
+        };
+        handler.postDelayed(runnable, 1000);
+    }
+
+    public void comprobarRespuesta(){
+        if(zuzena == respondida){
+            cargarQuestion();
+        }
     }
 }

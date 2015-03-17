@@ -1,6 +1,7 @@
 package com.aorbegozo005.quienquieresergraduado;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -20,6 +21,7 @@ public class UserInfoActivity extends ActionBarActivity {
 
     private Uri pickedPhoneNumber;
     private EditText userName;
+    private String number;
 
 
     @Override
@@ -39,7 +41,7 @@ public class UserInfoActivity extends ActionBarActivity {
         if (pickedPhoneNumber != null && userName.getText() != null && userName.getText().length()>0){
             Intent intent = new Intent(this, JuegoActivity.class);
             intent.putExtra("USER_INFO", userName.getText().toString());
-            intent.putExtra("TEL", pickedPhoneNumber.toString());
+            intent.putExtra("TEL", number);
             startActivity(intent);
         }else{
             DatosError error = new DatosError();
@@ -56,11 +58,25 @@ public class UserInfoActivity extends ActionBarActivity {
             if ( resultCode == RESULT_OK ) {
                 pickedPhoneNumber = intent.getData();
 
+                String[] projection = {ContactsContract.CommonDataKinds.Phone.NUMBER};
+
+                // Perform the query on the contact to get the NUMBER column
+                // We don't need a selection or sort order (there's only one result for the given URI)
+                // CAUTION: The query() method should be called from a separate thread to avoid blocking
+                // your app's UI thread. (For simplicity of the sample, this code doesn't do that.)
+                // Consider using CursorLoader to perform the query.
+                Cursor cursor = getContentResolver()
+                        .query(pickedPhoneNumber, projection, null, null, null);
+                cursor.moveToFirst();
+
+                // Retrieve the phone number from the NUMBER column
+                int column = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+                number = cursor.getString(column);
+
+
                 /* Deitzeko kodigoa
                 Intent intent2 = new Intent(Intent.ACTION_CALL, pickedPhoneNumber);
                 startActivity(intent2);
-                Toast t = Toast.makeText(this, Uri.parse(pickedPhoneNumber.toString()).toString(), Toast.LENGTH_LONG);
-                t.show();
                 */
                 // handle the picked phone number in here.
             }
