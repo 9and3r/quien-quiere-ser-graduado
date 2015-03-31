@@ -64,8 +64,12 @@ public class JuegoActivity extends ActionBarActivity {
         comodin50 = (Button) findViewById(R.id.comodin_50);
         comodinCompensacion = (Button) findViewById(R.id.comodin_compensa);
         comodinLlamada = (Button) findViewById(R.id.comodin_llamada);
+        nuevaPartida();
+    }
 
+    public void nuevaPartida(){
 
+        numeroPregunta = 0;
         db = new DatuBase(this);
 
         String[] galderak = getResources().getStringArray(R.array.preguntas);
@@ -77,6 +81,16 @@ public class JuegoActivity extends ActionBarActivity {
                          }
         );
 
+
+        comodin50.setEnabled(true);
+        comodin50.setBackgroundColor(Color.GRAY);
+
+        comodinCompensacion.setEnabled(true);
+        comodinCompensacion.setBackgroundColor(Color.GRAY);
+
+        comodinLlamada.setEnabled(true);
+        comodinLlamada.setBackgroundColor(Color.GRAY);
+
         cargarQuestion();
     }
 
@@ -85,7 +99,8 @@ public class JuegoActivity extends ActionBarActivity {
         numeroPregunta++;
         lista.setItemChecked(lista.getCount() - numeroPregunta, true);
         if(numeroPregunta == 17){
-
+            DialogCongratulations dialog = new DialogCongratulations();
+            dialog.show(getSupportFragmentManager(), "DIALOGO_CONGRATULATIONS");
         }
         if (numeroPregunta==13){
             comodinCompensacion.setBackgroundColor(Color.RED);
@@ -183,7 +198,9 @@ public class JuegoActivity extends ActionBarActivity {
                     marcarRespuesta();
                 }
             };
-            handler.postDelayed(runnable, 1000*numeroPregunta/4);
+
+            //TODO ALDATU 1000*numeroPregunta/4
+            handler.postDelayed(runnable,0 );
         }
     }
 
@@ -201,6 +218,9 @@ public class JuegoActivity extends ActionBarActivity {
     public void comprobarRespuesta(){
         if(zuzena == respondida){
             cargarQuestion();
+        }else{
+            DialogMagis dialog = new DialogMagis();
+            dialog.show(getSupportFragmentManager(), "DIALOG_MAGIS");
         }
     }
 }

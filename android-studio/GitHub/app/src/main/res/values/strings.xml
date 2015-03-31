@@ -47,5 +47,13 @@
     <string name="comodin_3">50:50</string>
 
 
+    <string name="congratulations">Irabazi duzu!</string>
+    <string name="congratulations_msg">Zorionak! Informatikako gradua atera duzu! Partida berri bat hasi nahi?</string>
+    <string name="no">No</string>
+
+    <string name="perder">Has perdido!</string>
+    <string name="perder_msg">Tal vez Magis no sea una mala idea... Quieres matricularte de nuevo?</string>
+
+
 
 </resources>
