@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -46,6 +47,8 @@ public class JuegoActivity extends ActionBarActivity {
 
     private DatuBase db;
 
+    private ArrayList<Integer> ikusitakoak;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +67,9 @@ public class JuegoActivity extends ActionBarActivity {
         comodin50 = (Button) findViewById(R.id.comodin_50);
         comodinCompensacion = (Button) findViewById(R.id.comodin_compensa);
         comodinLlamada = (Button) findViewById(R.id.comodin_llamada);
+
+        ikusitakoak = new ArrayList<Integer>();
+
         nuevaPartida();
     }
 
@@ -111,29 +117,37 @@ public class JuegoActivity extends ActionBarActivity {
         respuesta2.setVisibility(View.VISIBLE);
         respuesta3.setVisibility(View.VISIBLE);
         respuesta4.setVisibility(View.VISIBLE);
-        if(c.moveToFirst()){
+        if(c.moveToFirst()) {
+
             Random r = new Random();
             int ran = r.nextInt(c.getCount());
-            c.move(ran);
-            pregunta.setText(c.getString(0));
-            ArrayList<Button> botoiak = new ArrayList<>();
-            botoiak.add(respuesta1);
-            botoiak.add(respuesta2);
-            botoiak.add(respuesta3);
-            botoiak.add(respuesta4);
-            int i = 1;
-            while(botoiak.size()>0){
-                int ran2 = r.nextInt(botoiak.size());
-                botoiak.get(ran2).setText(c.getString(i));
-                if(i == 1){
-                    zuzena = botoiak.get(ran2);
-                }
-                i++;
-                botoiak.get(ran2).setBackgroundColor(Color.BLUE);
-                botoiak.remove(ran2);
 
+            if (!ikusitakoak.contains(ran)) {
+                ikusitakoak.add(ran);
+
+                c.move(ran);
+                pregunta.setText(c.getString(0));
+                ArrayList<Button> botoiak = new ArrayList<>();
+                botoiak.add(respuesta1);
+                botoiak.add(respuesta2);
+                botoiak.add(respuesta3);
+                botoiak.add(respuesta4);
+                int i = 1;
+                while (botoiak.size() > 0) {
+                    int ran2 = r.nextInt(botoiak.size());
+                    botoiak.get(ran2).setText(c.getString(i));
+                    if (i == 1) {
+                        zuzena = botoiak.get(ran2);
+                    }
+                    i++;
+                    botoiak.get(ran2).setBackgroundColor(Color.BLUE);
+                    botoiak.remove(ran2);
+
+                }
+                c.close();
             }
-            c.close();
+        }else{
+            cargarQuestion();
         }
     }
 
