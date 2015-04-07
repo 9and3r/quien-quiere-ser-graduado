@@ -32,6 +32,7 @@ public class UserInfoActivity extends ActionBarActivity {
     }
 
     public void elegirContacto(View v){
+        //Se elige el contacto y se almacena en un intent "pickContactIntent"
         Intent pickContactIntent = new Intent( Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI );
         pickContactIntent.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE);
         startActivityForResult(pickContactIntent, 1);

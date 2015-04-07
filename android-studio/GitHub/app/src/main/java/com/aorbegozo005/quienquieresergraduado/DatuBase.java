@@ -80,7 +80,7 @@ public class DatuBase extends SQLiteOpenHelper {
 
     }
 
-    public Cursor getQuestion(int maila){
+    public Cursor getQuestion(int maila){//devuelve las preguntas del nivel seleccionado
         SQLiteDatabase db = getReadableDatabase();
         return db.rawQuery("Select * from Pregunta where bloke = "+ maila +";",null);
     }

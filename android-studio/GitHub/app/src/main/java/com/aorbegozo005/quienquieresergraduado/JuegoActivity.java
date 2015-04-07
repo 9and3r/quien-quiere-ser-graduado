@@ -101,14 +101,31 @@ public class JuegoActivity extends ActionBarActivity {
     }
 
     public void cargarQuestion(){
-        Cursor c = db.getQuestion(1);
+        //definimos en qué nivel está con esta pequeña operación
+        double maila = numeroPregunta/4;
+        if(maila<=1){
+            maila = 1;
+        }
+        else if(maila <=2 && maila >1){
+            maila = 2;
+        }
+        else if(maila <=3 && maila > 2){
+            maila = 3;
+        }
+        else{
+            maila = 4;
+        }
+        //conseguimos todas las preguntas de ese nivel, desde la base de datos
+        Cursor c = db.getQuestion((int)maila);
         numeroPregunta++;
         lista.setItemChecked(lista.getCount() - numeroPregunta, true);
-        if(numeroPregunta == 17){
+        if(numeroPregunta == 17){//si ya se han respondido todas las preguntas,
+            //se muestra mensaje de felicitación y termina
             DialogCongratulations dialog = new DialogCongratulations();
             dialog.show(getSupportFragmentManager(), "DIALOGO_CONGRATULATIONS");
         }
-        if (numeroPregunta==13){
+        if (numeroPregunta==13){//si estamos en el cuarto nivel
+            //deshabilitamos el comodín de "Compensación"
             comodinCompensacion.setBackgroundColor(Color.RED);
             comodinCompensacion.setEnabled(false);
         }
@@ -118,10 +135,12 @@ public class JuegoActivity extends ActionBarActivity {
         respuesta3.setVisibility(View.VISIBLE);
         respuesta4.setVisibility(View.VISIBLE);
         if(c.moveToFirst()) {
-
+            //elegimos una pregunta al azar
             Random r = new Random();
             int ran = r.nextInt(c.getCount());
-
+            //si es apregunta ya ha sido respondida en la partida, la descartamos
+            //y volvemos a elegir otra
+            //cuando se encuentre una pregunta sin responder, se carga en la interfaz
             if (!ikusitakoak.contains(ran)) {
                 ikusitakoak.add(ran);
 
@@ -134,6 +153,7 @@ public class JuegoActivity extends ActionBarActivity {
                 botoiak.add(respuesta4);
                 int i = 1;
                 while (botoiak.size() > 0) {
+                    //elegimos, aleatoriamente, una posición para colocar la respuesta correcta
                     int ran2 = r.nextInt(botoiak.size());
                     botoiak.get(ran2).setText(c.getString(i));
                     if (i == 1) {
