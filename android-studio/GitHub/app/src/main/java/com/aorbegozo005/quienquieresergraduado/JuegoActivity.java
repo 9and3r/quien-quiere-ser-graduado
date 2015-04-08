@@ -68,13 +68,14 @@ public class JuegoActivity extends ActionBarActivity {
         comodinCompensacion = (Button) findViewById(R.id.comodin_compensa);
         comodinLlamada = (Button) findViewById(R.id.comodin_llamada);
 
-        ikusitakoak = new ArrayList<Integer>();
+
 
         nuevaPartida();
     }
 
     public void nuevaPartida(){
 
+        ikusitakoak = new ArrayList<Integer>();
         numeroPregunta = 0;
         db = new DatuBase(this);
 
@@ -101,8 +102,9 @@ public class JuegoActivity extends ActionBarActivity {
     }
 
     public void cargarQuestion(){
+        Log.d("Proba", "Galdera kargatzen "+numeroPregunta);
         //definimos en qué nivel está con esta pequeña operación
-        double maila = (double)numeroPregunta/4;//numeroPregunta/4 + 1;
+        int maila = numeroPregunta/4 + 1;
         if(maila<=1){
             maila = 1;
         }
@@ -115,8 +117,15 @@ public class JuegoActivity extends ActionBarActivity {
         else{
             maila = 4;
         }
+
+        // Cualquier pregunta es valida al cambiar de nivel
+        if (numeroPregunta==5 || numeroPregunta==9 || numeroPregunta==13){
+            ikusitakoak = new ArrayList<>();
+        }
+
+
         //conseguimos todas las preguntas de ese nivel, desde la base de datos
-        Cursor c = db.getQuestion((int)maila);
+        Cursor c = db.getQuestion(maila);
         numeroPregunta++;
         lista.setItemChecked(lista.getCount() - numeroPregunta, true);
         if(numeroPregunta == 17){//si ya se han respondido todas las preguntas,
@@ -135,41 +144,43 @@ public class JuegoActivity extends ActionBarActivity {
         respuesta3.setVisibility(View.VISIBLE);
         respuesta4.setVisibility(View.VISIBLE);
         if(c.moveToFirst()) {
-            //elegimos una pregunta al azar
             Random r = new Random();
+            //elegimos una pregunta al azar
             int ran = r.nextInt(c.getCount());
+
             //si es apregunta ya ha sido respondida en la partida, la descartamos
             //y volvemos a elegir otra
             //cuando se encuentre una pregunta sin responder, se carga en la interfaz
-            if (!ikusitakoak.contains(ran)) {
-                ikusitakoak.add(ran);
-
-                c.move(ran);
-                pregunta.setText(c.getString(0));
-                ArrayList<Button> botoiak = new ArrayList<>();
-                botoiak.add(respuesta1);
-                botoiak.add(respuesta2);
-                botoiak.add(respuesta3);
-                botoiak.add(respuesta4);
-                int i = 1;
-                while (botoiak.size() > 0) {
-                    //elegimos, aleatoriamente, una posición para colocar la respuesta correcta
-                    int ran2 = r.nextInt(botoiak.size());
-                    botoiak.get(ran2).setText(c.getString(i));
-                    if (i == 1) {
-                        zuzena = botoiak.get(ran2);
-                    }
-                    i++;
-                    botoiak.get(ran2).setBackgroundColor(Color.BLUE);
-                    botoiak.remove(ran2);
-
-                }
-                c.close();
+            while(ikusitakoak.contains(ran)){
+                ran = r.nextInt(c.getCount());
             }
-        }else{
-            cargarQuestion();
+            ikusitakoak.add(ran);
+            c.move(ran);
+            pregunta.setText(c.getString(0));
+            ArrayList<Button> botoiak = new ArrayList<>();
+            botoiak.add(respuesta1);
+            botoiak.add(respuesta2);
+            botoiak.add(respuesta3);
+            botoiak.add(respuesta4);
+            int i = 1;
+            while (botoiak.size() > 0) {
+                //elegimos, aleatoriamente, una posición para colocar la respuesta correcta
+                int ran2 = r.nextInt(botoiak.size());
+                botoiak.get(ran2).setText(c.getString(i));
+                if (i == 1) {
+                    zuzena = botoiak.get(ran2);
+                }
+                i++;
+                botoiak.get(ran2).setBackgroundColor(Color.BLUE);
+                botoiak.remove(ran2);
+
+            }
+            c.close();
+
         }
     }
+
+
 
 
     public void comodin50(View v){
@@ -185,7 +196,6 @@ public class JuegoActivity extends ActionBarActivity {
     }
 
     public void comodinLlamada(View v){
-        Log.d("Proba", tel.toString());
         Intent intent2 = new Intent(Intent.ACTION_DIAL);
         intent2.setData(Uri.parse("tel:"+tel));
         startActivity(intent2);
@@ -234,7 +244,7 @@ public class JuegoActivity extends ActionBarActivity {
             };
 
             //TODO ALDATU 1000*numeroPregunta/4
-            handler.postDelayed(runnable,0 );
+            handler.postDelayed(runnable, 1000);
         }
     }
 

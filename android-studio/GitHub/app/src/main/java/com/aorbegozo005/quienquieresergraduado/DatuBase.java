@@ -20,7 +20,7 @@ public class DatuBase extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE  TABLE \"main\".\"Pregunta\" (\"galdera\" VARCHAR PRIMARY KEY  NOT NULL , \"erantzuna_zuzena\" VARCHAR, \"erantzuna_1\" VARCHAR, \"erantzuna_2\" VARCHAR, \"erantzuna_3\" VARCHAR, \"bloke\" INTEGER)");
-        db.execSQL("INSERT INTO \"main\".\"Pregunta\" (\"galdera\",\"erantzuna_zuzena\",\"erantzuna_1\",\"erantzuna_2\",\"erantzuna_3\",\"bloke\") VALUES ('Beitiaren izena zein da?','Joseba','Ander','Beitia','Jose',1)");
+
 
         // Nivel 1
         db.execSQL("INSERT INTO \"main\".\"Pregunta\" (\"galdera\",\"erantzuna_zuzena\",\"erantzuna_1\",\"erantzuna_2\",\"erantzuna_3\",\"bloke\") VALUES ('¿Cómo se declara una variable en ADA?','a: Integer:=0;','Integer a = 0;','int a:=0;','Integer a:=0;',1)");
