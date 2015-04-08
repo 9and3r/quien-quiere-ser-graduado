@@ -102,7 +102,7 @@ public class JuegoActivity extends ActionBarActivity {
 
     public void cargarQuestion(){
         //definimos en qué nivel está con esta pequeña operación
-        double maila = numeroPregunta/4 + 1;
+        double maila = (double)numeroPregunta/4;//numeroPregunta/4 + 1;
         if(maila<=1){
             maila = 1;
         }
