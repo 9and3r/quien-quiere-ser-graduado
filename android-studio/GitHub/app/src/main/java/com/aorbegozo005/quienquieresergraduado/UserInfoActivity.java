@@ -2,6 +2,7 @@ package com.aorbegozo005.quienquieresergraduado;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -22,6 +23,7 @@ public class UserInfoActivity extends ActionBarActivity {
     private Uri pickedPhoneNumber;
     private EditText userName;
     private String number;
+    private MediaPlayer mediaPlayer;
 
 
     @Override
@@ -29,6 +31,22 @@ public class UserInfoActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_info);
         userName = (EditText) findViewById(R.id.userName);
+
+    }
+
+    @Override
+    protected void onResume() {
+        mediaPlayer = MediaPlayer.create(this, R.raw.graduadoinicio);
+        mediaPlayer.setLooping(false);
+        mediaPlayer.setVolume(100,100);
+        mediaPlayer.start();
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        mediaPlayer.stop();
+        super.onPause();
     }
 
     public void elegirContacto(View v){

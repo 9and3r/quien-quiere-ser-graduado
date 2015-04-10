@@ -3,6 +3,7 @@ package com.aorbegozo005.quienquieresergraduado;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Handler;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -49,6 +50,8 @@ public class JuegoActivity extends ActionBarActivity {
 
     private ArrayList<Integer> ikusitakoak;
 
+    private MediaPlayer mediaPlayer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,12 +71,29 @@ public class JuegoActivity extends ActionBarActivity {
         comodinCompensacion = (Button) findViewById(R.id.comodin_compensa);
         comodinLlamada = (Button) findViewById(R.id.comodin_llamada);
 
+        mediaPlayer = MediaPlayer.create(this,R.raw.graduado1);
+
+
 
 
         nuevaPartida();
     }
 
+    @Override
+    protected void onPostResume() {
+        if(numeroPregunta != 0){
+            mediaPlayer.start();
+        }
+        super.onPostResume();
+    }
+
     public void nuevaPartida(){
+        //música
+        mediaPlayer.stop();
+        mediaPlayer = MediaPlayer.create(this,R.raw.graduado1);
+        mediaPlayer.setLooping(true);
+        mediaPlayer.setVolume(100,100);
+        mediaPlayer.start();
 
         ikusitakoak = new ArrayList<Integer>();
         numeroPregunta = 0;
@@ -101,6 +121,13 @@ public class JuegoActivity extends ActionBarActivity {
         cargarQuestion();
     }
 
+    @Override
+    protected void onPause() {
+        mediaPlayer.pause();
+        super.onPause();
+    }
+
+
     public void cargarQuestion(){
         Log.d("Proba", "Galdera kargatzen "+numeroPregunta);
         //definimos en qué nivel está con esta pequeña operación
@@ -113,6 +140,7 @@ public class JuegoActivity extends ActionBarActivity {
         }
         else if(maila <=3 && maila > 2){
             maila = 3;
+
         }
         else{
             maila = 4;
@@ -121,9 +149,34 @@ public class JuegoActivity extends ActionBarActivity {
 
 
 
+
         //conseguimos todas las preguntas de ese nivel, desde la base de datos
         Cursor c = db.getQuestion(maila);
         numeroPregunta++;
+
+        //música
+        if(maila == 1){
+            mediaPlayer.stop();
+            mediaPlayer = MediaPlayer.create(this, R.raw.graduado1);
+            mediaPlayer.setLooping(false);
+            mediaPlayer.setVolume(100,100);
+            mediaPlayer.start();
+        }
+        if(maila == 2 || maila == 3){
+            mediaPlayer.stop();
+            mediaPlayer = MediaPlayer.create(this,R.raw.graduado2);
+            mediaPlayer.setLooping(true);
+            mediaPlayer.setVolume(100,100);
+            mediaPlayer.start();
+        }
+        if(maila == 4){
+            mediaPlayer.stop();
+            mediaPlayer = MediaPlayer.create(this,R.raw.graduado3);
+            mediaPlayer.setLooping(true);
+            mediaPlayer.setVolume(100,100);
+            mediaPlayer.start();
+        }
+
 
         // Cualquier pregunta es valida al cambiar de nivel
         if (numeroPregunta==5 || numeroPregunta==9 || numeroPregunta==13){
@@ -249,25 +302,44 @@ public class JuegoActivity extends ActionBarActivity {
             };
 
             //TODO ALDATU 1000*numeroPregunta/4
-            handler.postDelayed(runnable, 1000);
+            handler.postDelayed(runnable, 1000*numeroPregunta/2);
         }
     }
 
     public void marcarRespuesta(){
-        zuzena.setBackgroundColor(Color.GREEN);
-        Handler handler = new Handler();
-        Runnable runnable = new Runnable(){
-            public void run() {
-                comprobarRespuesta();
-            }
-        };
-        handler.postDelayed(runnable, 1000);
+        if(zuzena != respondida){
+            mediaPlayer.stop();
+            mediaPlayer = MediaPlayer.create(this,R.raw.graduadoincorrecta);
+            mediaPlayer.setLooping(false);
+            mediaPlayer.setVolume(100,100);
+            mediaPlayer.start();
+        }
+        else {
+            mediaPlayer.stop();
+            mediaPlayer = MediaPlayer.create(this, R.raw.graduadocorrecta);
+            mediaPlayer.setLooping(false);
+            mediaPlayer.setVolume(100,100);
+            mediaPlayer.start();
+        }
+            zuzena.setBackgroundColor(Color.GREEN);
+
+            Handler handler = new Handler();
+            Runnable runnable = new Runnable() {
+                public void run() {
+                    comprobarRespuesta();
+                }
+            };
+            handler.postDelayed(runnable, 5000);
+
     }
 
     public void comprobarRespuesta(){
         if(zuzena == respondida){
+
+
             cargarQuestion();
         }else{
+
             DialogMagis dialog = new DialogMagis();
             dialog.show(getSupportFragmentManager(), "DIALOG_MAGIS");
         }

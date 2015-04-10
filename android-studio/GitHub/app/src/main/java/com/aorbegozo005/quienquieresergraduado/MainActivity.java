@@ -1,6 +1,7 @@
 package com.aorbegozo005.quienquieresergraduado;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,12 +13,23 @@ import java.util.TimerTask;
 
 
 public class MainActivity extends ActionBarActivity {
+    private MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Reminder r = new Reminder(5);
+
+    }
+
+    @Override
+    protected void onResume() {
+        mediaPlayer = MediaPlayer.create(this, R.raw.graduadoinicio);
+        mediaPlayer.setLooping(false);
+        mediaPlayer.setVolume(100,100);
+        mediaPlayer.start();
+        super.onResume();
     }
 
     public void instrucciones(View v){
@@ -30,7 +42,11 @@ public class MainActivity extends ActionBarActivity {
         startActivity(i);
     }
 
-
+    @Override
+    protected void onPause() {
+        mediaPlayer.stop();
+        super.onPause();
+    }
 
     public class Reminder {
 
