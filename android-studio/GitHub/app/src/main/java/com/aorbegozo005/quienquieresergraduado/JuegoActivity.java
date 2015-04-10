@@ -118,15 +118,18 @@ public class JuegoActivity extends ActionBarActivity {
             maila = 4;
         }
 
-        // Cualquier pregunta es valida al cambiar de nivel
-        if (numeroPregunta==5 || numeroPregunta==9 || numeroPregunta==13){
-            ikusitakoak = new ArrayList<>();
-        }
+
 
 
         //conseguimos todas las preguntas de ese nivel, desde la base de datos
         Cursor c = db.getQuestion(maila);
         numeroPregunta++;
+
+        // Cualquier pregunta es valida al cambiar de nivel
+        if (numeroPregunta==5 || numeroPregunta==9 || numeroPregunta==13){
+            ikusitakoak = new ArrayList<>();
+        }
+
         lista.setItemChecked(lista.getCount() - numeroPregunta, true);
         if(numeroPregunta == 17){//si ya se han respondido todas las preguntas,
             //se muestra mensaje de felicitación y termina
@@ -225,7 +228,8 @@ public class JuegoActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_nueva_partida) {
+            nuevaPartida();
             return true;
         }
 
