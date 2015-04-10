@@ -89,7 +89,9 @@ public class JuegoActivity extends ActionBarActivity {
 
     public void nuevaPartida(){
         //música
-        mediaPlayer.stop();
+        if(mediaPlayer.isPlaying()){
+            mediaPlayer.stop();
+        }
         mediaPlayer = MediaPlayer.create(this,R.raw.graduado1);
         mediaPlayer.setLooping(true);
         mediaPlayer.setVolume(100,100);
@@ -129,7 +131,6 @@ public class JuegoActivity extends ActionBarActivity {
 
 
     public void cargarQuestion(){
-        Log.d("Proba", "Galdera kargatzen "+numeroPregunta);
         //definimos en qué nivel está con esta pequeña operación
         int maila = numeroPregunta/4 + 1;
         if(maila<=1){
@@ -186,6 +187,12 @@ public class JuegoActivity extends ActionBarActivity {
         lista.setItemChecked(lista.getCount() - numeroPregunta, true);
         if(numeroPregunta == 17){//si ya se han respondido todas las preguntas,
             //se muestra mensaje de felicitación y termina
+            mediaPlayer.stop();
+            mediaPlayer = MediaPlayer.create(this,R.raw.graduadoinicio);
+            mediaPlayer.setLooping(false);
+            mediaPlayer.setVolume(100,100);
+            mediaPlayer.start();
+
             DialogCongratulations dialog = new DialogCongratulations();
             dialog.show(getSupportFragmentManager(), "DIALOGO_CONGRATULATIONS");
         }
