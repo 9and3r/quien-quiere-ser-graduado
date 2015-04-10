@@ -3,7 +3,18 @@
     <string name="action_nueva_partida">Nueva partida</string>
     <string name="jugar">Jugar</string>
     <string name="instrucciones">Instrucciones</string>
-    <string name="instrucciones_texto">Bla bala akbfdklajglkajgklnadfklnvnad JOSE kgladflkjga</string>
+    <string name="instrucciones_texto">
+"¿Quién quiere ser graduado?" es un juego pensado para dispositivos Android cuyo objetivo es muy simple: superar los cuatro cursos respectivos al grado de Informática de Gestión y Sistemas de Información, y conseguir el graduado.\n
+\n
+En el menú principal de la aplicación, el usuario tendrá la posibilidad de comenzar a jugar directamente, o si lo prefiere, leerse las instrucciones. En caso de elegir la primera opción, aparecerá una pantalla en la cual se deberá introducir el nombre del usuario (el nickname para el jugador de la partida), y un número de teléfono obligatorio, sin el cual no se permitirá continuar. Una vez se han especificado estos dos campos, comienza la partida.\n
+\n
+Objetivo del juego: Superar los 4 niveles de preguntas (un nivel simula un curso del grado), compuestos por 4 preguntas por cada nivel (preguntas referentes a asignaturas del respectivo nivel o curso), hasta conseguir acertarlas todas y conseguir el graduado de Informática de Gestión y Sistemas de Información.\n
+\n
+Reglas del juego: Cada pregunta consta de 4 respuestas posibles, de las cuales, solamente 1 de ellas será correcta. Cuando el usuario seleccione la respuesta, ésta se iluminará de color ámbar, y pasados unos segundos, se pondrá en verde si es correcta, y si no, se mostrará en ámbar la respuesta elegida por el usuario, y en verde la correcta.\n
+\n
+Asimismo, el jugador dispone de 3 comodines de un solo uso, a saber: "50:50", que elimina dos de las 4 respuestas correctas, dejando sólo 2 como posible elección (siendo una de ellas la correcta, claro); "Llamada", que sirviéndose del número de teléfono especificado en el paso previo, llamará a ese mismo número para que el jugador pueda preguntarle su duda; "Compensación", que saltará, automáticamente, a la siguiente pregunta, dando por válida la anterior. Este comodín sólo estará disponible en los primeros 3 niveles.\n
+\n
+En caso de fallar una pregunta, se perderá la partida y se le preguntará al jugador si quiere volver a matricularse, o si quiere apuntarse a Magisterio, en cuyo caso, se le llevaría a la página web de matriculación de la Facultad de Magisterio del Campus de Leioa.</string>
     <string name="aceptar">Aceptar</string>
     <string name="title_activity_user_info">UserInfoActivity</string>
 
