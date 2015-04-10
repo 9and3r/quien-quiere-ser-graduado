@@ -151,6 +151,7 @@ public class JuegoActivity extends ActionBarActivity {
             //si es apregunta ya ha sido respondida en la partida, la descartamos
             //y volvemos a elegir otra
             //cuando se encuentre una pregunta sin responder, se carga en la interfaz
+
             while(ikusitakoak.contains(ran)){
                 ran = r.nextInt(c.getCount());
             }
